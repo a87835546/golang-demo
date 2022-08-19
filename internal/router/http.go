@@ -16,9 +16,7 @@ func RouteDemo(app *iris.Application) {
 		p.Get("/1", home.Test)
 	})
 	app.Get("/test", func(ctx iris.Context) {
-		ctx.JSON(iris.Map{
-			"aa": "bb",
-		})
+		handler.Re(ctx, handler.Success, nil)
 	})
 
 }

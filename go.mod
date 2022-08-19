@@ -4,7 +4,10 @@ go 1.18
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/doug-martin/goqu/v9 v9.18.0
+	github.com/go-sql-driver/mysql v1.6.0
 	github.com/iris-contrib/swagger/v12 v12.0.1
+	github.com/jmoiron/sqlx v1.3.5
 	github.com/kataras/iris/v12 v12.1.8
 	github.com/spf13/viper v1.3.2
 )
@@ -69,5 +72,5 @@ require (
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 	gopkg.in/ini.v1 v1.51.1 // indirect
 	gopkg.in/yaml.v2 v2.2.4 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20191120175047-4206685974f2 // indirect
+	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c // indirect
 )
