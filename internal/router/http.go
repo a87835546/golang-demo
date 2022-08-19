@@ -12,8 +12,13 @@ func RouteDemo(app *iris.Application) {
 	app.UseGlobal(middleware.CROS, middleware.LogInfoBefore, middleware.LogInfoAfter)
 
 	home := new(handler.HomeCtl)
-	app.PartyFunc("home", func(p router.Party) {
-		p.Get("/", home.Test)
+	app.PartyFunc("/home", func(p router.Party) {
+		p.Get("/1", home.Test)
+	})
+	app.Get("/test", func(ctx iris.Context) {
+		ctx.JSON(iris.Map{
+			"aa": "bb",
+		})
 	})
 
 }

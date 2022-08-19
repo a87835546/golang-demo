@@ -3,16 +3,27 @@ package main
 import (
 	"errors"
 	"fmt"
+	"github.com/iris-contrib/swagger/v12"
+	"github.com/iris-contrib/swagger/v12/swaggerFiles"
 	"github.com/kataras/iris/v12"
 	"golang-demo/internal/consts"
 	"golang-demo/internal/router"
+	"log"
 )
 
 func main() {
 	fmt.Println("Hello, World!")
-	app := iris.New()
-	router.RouteDemo(app)
 	consts.InitYaml()
+	app := iris.New()
+	url := fmt.Sprintf("http://%v:18081/swagger/doc.json", consts.Conf.Server.Host)
+	config1 := &swagger.Config{
+		URL: url, //The url pointing to API definition
+	}
+	log.Printf("url -->>> %s\n", url)
+	// use swagger middleware to
+	app.Get("/swagger/{any:path}", swagger.CustomWrapHandler(config1, swaggerFiles.Handler))
+
+	router.RouteDemo(app)
 	/*** 启动服务 ***/
 	serverConf := fmt.Sprintf("%s:%d", consts.Conf.Server.Host, consts.Conf.Server.Port)
 	err := app.Run(

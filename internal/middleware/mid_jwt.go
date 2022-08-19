@@ -2,10 +2,9 @@ package middleware
 
 import (
 	"github.com/kataras/iris/v12"
-	"og_agent/doraemon/helper"
-	"og_agent/internal/consts"
-	"og_agent/internal/handler"
-	"og_agent/internal/logic"
+	"golang-demo/doraemon/helper"
+	"golang-demo/internal/consts"
+	"golang-demo/internal/handler"
 	"strings"
 	"time"
 )
@@ -23,10 +22,6 @@ func CheckJWT(ctx iris.Context) {
 		ctx.StatusCode(iris.StatusUnauthorized)
 		handler.Re(ctx, handler.TokenErr, "")
 		return
-	}
-	memberID := logic.GetMemberId(tokenString)
-	if memberID != 0 {
-		ctx.Values().Set("member_id", memberID)
 	}
 	//fmt.Printf("token ---->>> %s \nmember id --->>> %d \v", tokenString, memberID)
 
