@@ -11,10 +11,12 @@ func RouteDemo(app *iris.Application) {
 	// 常用的iris 中间件
 	app.UseGlobal(middleware.CROS, middleware.LogInfoBefore, middleware.LogInfoAfter)
 
+	// iris 路由管理
 	home := new(handler.HomeCtl)
 	app.PartyFunc("/home", func(p router.Party) {
 		p.Get("/1", home.Test)
 	})
+
 	app.Get("/test", func(ctx iris.Context) {
 		handler.Re(ctx, handler.Success, nil)
 	})

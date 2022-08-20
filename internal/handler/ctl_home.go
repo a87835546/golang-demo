@@ -15,6 +15,7 @@ func (c *HomeCtl) Test(ctx iris.Context) {
 }
 func (c *HomeCtl) Add(ctx iris.Context) {
 	user := models.UserModel{}
+	// 获取前端post传递的参数
 	ctx.ReadJSON(&user)
 	err := logic.UserServiceAddUser(user)
 	if err == nil {
