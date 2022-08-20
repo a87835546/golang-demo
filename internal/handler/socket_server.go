@@ -1,13 +1,15 @@
-package logic
+package handler
 
 import (
+	"bytes"
+	"encoding/binary"
+	"encoding/json"
 	"github.com/kataras/iris/v12/websocket"
 	"github.com/kataras/neffos"
+	"github.com/kataras/neffos/gorilla"
 	"log"
 	"strings"
 	"sync"
-	//"test/consts"
-	//"test/gorilla"
 	"time"
 )
 
@@ -41,7 +43,7 @@ func InitWebsocket() *neffos.Server {
 			pong := strings.Replace(ping, "？", "！", len(ping))
 			pong = strings.Replace(pong, "么", "", len(pong))
 
-			result := consts.Result{
+			result := Result{
 				Message: "socket 消息回复" + time.Now().GoString(),
 				Code:    200,
 				Data:    pong,
@@ -74,4 +76,17 @@ func InitWebsocket() *neffos.Server {
 		log.Printf("Upgrade Error: %v", err)
 	}
 	return ws
+}
+func (r Result) ToBytes() []byte {
+	buf := new(bytes.Buffer)
+	if s, err := json.Marshal(&r); err != nil {
+		log.Printf("解析数据异常--->>>%v \n", s)
+		return nil
+	} else {
+		if err := binary.Write(buf, binary.BigEndian, s); err != nil {
+			log.Printf("err --->>>> %v \n", err.Error())
+			return nil
+		}
+		return buf.Bytes()
+	}
 }

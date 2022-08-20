@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/core/router"
+	"github.com/kataras/iris/v12/websocket"
 	"golang-demo/internal/handler"
 	"golang-demo/internal/middleware"
 )
@@ -20,5 +21,8 @@ func RouteDemo(app *iris.Application) {
 	app.Get("/test", func(ctx iris.Context) {
 		handler.Re(ctx, handler.Success, nil)
 	})
+
+	// websoket 使用
+	app.Get("/msg", websocket.Handler(handler.InitWebsocket()))
 
 }

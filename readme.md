@@ -54,7 +54,7 @@
 5. sqlx -- 待完善
 6. hprose -- 待完善
 7. nats
-8. websocket 使用 -- 带完善
+8. websocket 使用 -- handler/socket_server.go
 9. context 包
 10. net/http 包
 11. 单元测试包 testing
