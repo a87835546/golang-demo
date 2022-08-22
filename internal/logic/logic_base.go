@@ -13,6 +13,7 @@ var Db *sqlx.DB
 var G = goqu.Dialect("mysql")
 
 func init() {
+	consts.InitYaml()
 
 	_dsn := fmt.Sprintf("%s:%s@tcp(%s:3306)/demo?charset=utf8mb4&parseTime=True", consts.Conf.MySQL.User, consts.Conf.MySQL.Password, consts.Conf.MySQL.Host)
 	//_dsn := "admin:qwer1234@tcp(test.cjyntu0au13f.ap-southeast-1.rds.amazonaws.com:3306)/demo?charset=utf8mb4&parseTime=True"
