@@ -93,7 +93,7 @@
 5. goroutine 介绍
 6. 读取本地文件 --- consts/config.go
 7. 反射
-8. 值引用和指针引用的区别 。判断两个对象是否相等
+8. 值引用和指针引用的区别 。判断两个对象是否相等 ---handler/basic_exmaple.go
 ```Go
       //DeepEqual 判断两个对象是否相等， 和 值引用和 指针引用的区别
       func (c *BasicExample) DeepEqual() {
