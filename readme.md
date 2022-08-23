@@ -49,9 +49,36 @@
    ```Go
    // 构建插入数据	
    sql, _, err := G.From("user").Insert().Rows(ex).ToSQL()
+   // 更新数据，
+   rd := goqu.Ex{"name": "lisi"}
+    sql, _, err := G.From("user").Update().Where(goqu.Ex{"id": 1}).Set(rd).ToSQL()
    
+   // 根据条件查询数据
+   sql, _, err := G.From("user").Select().Where(goqu.Ex{"id": 1}).Limit(10).Offset(1).ToSQL()
+	
+   // 查询所有数据
+    sql, _, err = G.From("user").Select().ToSQL()
    ```
 5. sqlx -- 待完善
+```Go
+
+    // 根据查询到的数据解析成对应的model
+	res, err := Db.Queryx(sql)
+    for res.Next() {
+        var p models.UserModel
+        err = res.StructScan(&p)
+         v = append(v, p)
+     } 
+
+	 
+	 // 执行sql语句
+     _, err = Db.Exec(sql)
+	 
+	 // 获取单条数据
+	 err:=Db.Get(&user, sql)
+    
+
+```
 6. hprose -- 待完善
 7. nats
 8. websocket 使用 -- handler/socket_server.go

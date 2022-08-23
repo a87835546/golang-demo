@@ -14,9 +14,9 @@ func RouteDemo(app *iris.Application) {
 
 	// iris 路由管理
 	home := new(handler.HomeCtl)
-	home.DeepEqual()
 	app.PartyFunc("/home", func(p router.Party) {
 		p.Get("/1", home.Test)
+		p.Get("/query", home.Query)
 	})
 
 	app.Get("/test", func(ctx iris.Context) {
