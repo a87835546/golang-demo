@@ -47,6 +47,7 @@
 3. redis --- 待完善
 4. goqu sql 构建 -- logic/logic_user.go
    ```Go
+   
    // 构建插入数据	
    sql, _, err := G.From("user").Insert().Rows(ex).ToSQL()
    // 更新数据，
@@ -58,6 +59,7 @@
 	
    // 查询所有数据
     sql, _, err = G.From("user").Select().ToSQL()
+
    ```
 5. sqlx -- 待完善
 ```Go
@@ -68,13 +70,12 @@
         var p models.UserModel
         err = res.StructScan(&p)
          v = append(v, p)
-     } 
-
+     }
 	 
-	 // 执行sql语句
-     _, err = Db.Exec(sql)
+	 // 执行sql语句 
+	 _, err = Db.Exec(sql)
 	 
-	 // 获取单条数据
+	 // 获取单条数据 
 	 err:=Db.Get(&user, sql)
     
 
