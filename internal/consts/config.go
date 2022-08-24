@@ -49,7 +49,7 @@ func InitYaml() {
 	err := viper.ReadInConfig()
 	if err != nil {
 		log.Println("Config file not found: ", err)
-		panic("Failed to open config file")
+		//panic("Failed to open config file")
 	}
 
 	viper.Unmarshal(&Conf)
