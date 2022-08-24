@@ -117,7 +117,20 @@
 
 2. 接口 interface 的介绍
 3. map 的使用介绍
-4. slice 切片
+4. slice 切片 --- base_test.go
+```go
+   var arr = []int{0, 1}
+   var arr1 = []int{10, 11}
+   // 这是一次性添加多个元素
+   arr = append(arr, 2, 3)
+   // 这是添加单个元素
+   arr = append(arr, 4)
+   // 这是一次性添加多个元素-- 添加一个切片对象
+   arr = append(arr, arr1...)
+   
+   //使用其他的切片构建新的切片，
+   arr2 := append(arr[:2], arr1[0:1]...)
+```
 5. goroutine 介绍
 6. 读取本地文件 --- consts/config.go
 7. 反射
