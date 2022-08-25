@@ -85,7 +85,7 @@
 8. websocket 使用 -- handler/socket_server.go
 9. context 包
 10. net/http 包
-11. 单元测试包 testing
+11. 单元测试包 testing --base_test.go
 12. channel 重点
 13. file
 14. IO
@@ -140,6 +140,9 @@
 7. 反射
 8. 值引用和指针引用的区别 。判断两个对象是否相等 ---handler/basic_exmaple.go
 ```Go
+      // 注意：Go语言中所有的传参都是值传递（传值），都是一个副本，一个拷贝。
+      // 拷贝的内容是非引用类型（int、string、struct等这些），在函数中就无法修改原内容数据；
+      // 拷贝的内容是引用类型（interface、指针、map、slice、chan等这些），这样就可以修改原内容数据。
       //DeepEqual 判断两个对象是否相等， 和 值引用和 指针引用的区别
       func (c *BasicExample) DeepEqual() {
          p := Person{
