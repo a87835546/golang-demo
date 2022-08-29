@@ -11,6 +11,7 @@ import (
 	"golang-demo/doraemon/gorilla"
 	"log"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
@@ -22,29 +23,32 @@ var wait = sync.WaitGroup{}
 var lo = sync.RWMutex{}
 
 type concurrentMap map[string]*websocket.Conn
-type parametersMap map[string]any
+type parametersMap map[string]string
 
 var Cmap = concurrentMap{}
 var Parameter = parametersMap{}
 
 //SaveParameter 存储请求的参数
-func (c parametersMap) SaveParameter(key string, value any) {
+func (c parametersMap) SaveParameter(key, value string) {
 	lo.Lock()
 	defer lo.Unlock()
 	c[key] = value
 }
 
 //GetParameter 获取请求的参数
-func (c parametersMap) GetParameter(key string) any {
+func (c parametersMap) GetParameter(key string) string {
 	lo.Lock()
 	defer lo.Unlock()
 	return c[key]
 }
 
-func (c parametersMap) Delete(key string) {
-	lo.Lock()
-	lo.Unlock()
-	delete(c, key)
+// DeleteByWsId 当用户掉线后删除所有的参数列表
+func (c parametersMap) DeleteByWsId(id string) {
+	for key, _ := range c {
+		if strings.Contains(key, id) {
+			delete(c, key)
+		}
+	}
 }
 func (c concurrentMap) setValue(key string, value *websocket.Conn) {
 	lo.Lock()
@@ -92,7 +96,7 @@ func InitWebsocket() *neffos.Server {
 	ws.OnDisconnect = func(c *websocket.Conn) {
 		log.Printf("[%s] Disconnected from server", c.ID())
 		delete(Cmap, c.ID())
-		delete(Parameter, c.ID())
+		Parameter.DeleteByWsId(c.ID())
 	}
 
 	ws.OnUpgradeError = func(err error) {
@@ -120,40 +124,19 @@ func configKey(path, uid string) string {
 	return key
 }
 
-func UpdateParameter(path, uid string, param any) {
+// UpdateParameter 当前端请求后更新本地维护数据参数
+func UpdateParameter(path, uid, param string) {
 	key := configKey(path, uid)
 	Parameter.SaveParameter(key, param)
 }
 
-func Send(path, uid, msg string, f func(key string)) error {
-	conn := Cmap.GetValue(uid)
-	key := configKey(path, uid)
-	f(key)
-	result := Result{
-		Message: "socket 消息回复" + strconv.FormatInt(time.Now().UnixMilli(), 10),
-		Code:    200,
-		Data:    "id:" + msg + "--- ws id:" + conn.ID(),
-	}
-	mg := websocket.Message{
-		Body:     result.ToBytes(),
-		IsNative: true,
-	}
-	log.Printf("res --->>>> %v\n", result)
-
-	if ok := conn.Write(mg); ok {
-		return nil
-	} else {
-		return errors.New("send error")
-	}
-}
-
-func SendAll() error {
+func SendAll(res any) error {
 	for _, conn := range Cmap {
 		fmt.Printf("conn id -->>> %s\n", conn.ID())
 		result := Result{
 			Message: "socket 消息回复" + strconv.FormatInt(time.Now().UnixMilli(), 10),
 			Code:    200,
-			Data:    "id:" + "--- ws id:" + conn.ID(),
+			Data:    res, //"id:" + "--- ws id:" + conn.ID(),
 		}
 		mg := websocket.Message{
 			Body:     result.ToBytes(),
@@ -170,19 +153,22 @@ func SendAll() error {
 	return nil
 }
 
-func SendOne(id string) error {
-	conn := Cmap.GetValue(id)
+func SendOne(uid, path string, f func(param string) (res any)) error {
+	// ws 链接对象
+	conn := Cmap.GetValue(uid)
+	// parameters
+	p := Parameter.GetParameter(configKey(path, uid))
+	res := f(p)
 	result := Result{
 		Message: "socket 消息回复" + strconv.FormatInt(time.Now().UnixMilli(), 10),
 		Code:    200,
-		Data:    "id:" + "--- ws id:" + conn.ID(),
+		Data:    res,
 	}
 	mg := websocket.Message{
 		Body:     result.ToBytes(),
 		IsNative: true,
 	}
 	log.Printf("res --->>>> %v\n", result)
-
 	if ok := conn.Write(mg); ok {
 		return nil
 	} else {

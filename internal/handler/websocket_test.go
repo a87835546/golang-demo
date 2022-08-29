@@ -4,31 +4,13 @@ import (
 	"testing"
 )
 
-//func TestWebsocket(t *testing.T) {
-//	result := Result{
-//		Message: "socket 消息回复" + time.Now().GoString(),
-//		Code:    200,
-//		Data:    "ping",
-//	}
-//	log.Printf("res --->>>> %v\n", result)
-//	mg := websocket.Message{
-//		Body:     result.ToBytes(),
-//		IsNative: true,
-//	}
-//	WSConn.Write(mg)
-//}
-
 func TestSendAll(t *testing.T) {
-	SendAll()
+	SendAll("查询到的所有参数")
 }
 
-//func TestParametersMap_Clear(t *testing.T) {
-//
-//	for i := 0; i < 10000; i++ {
-//		Parameter.SaveParameter(fmt.Sprintf("time:%d-%d", time.Now().UnixNano(), i), i)
-//	}
-//	fmt.Printf("param -->> %s", Parameter)
-//
-//	Parameter.Clear()
-//	fmt.Printf("param -->> %s", Parameter)
-//}
+func TestParametersMap_Clear(t *testing.T) {
+	SendOne("id", "path", func(param string) (res any) {
+		//param 的参数去获取知道数据 param 需要转换成 map
+		return "使用param 查询到的所有参数"
+	})
+}
