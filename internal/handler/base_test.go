@@ -128,3 +128,12 @@ func TestSlice4(t *testing.T) {
 	fmt.Printf(" len = %d\n", len(a))
 	// 此时 输出的长度 一定会是 1000000，耗时平均在0.82s
 }
+
+func TestPointer(t *testing.T) {
+	fmt.Println("")
+	var a = 1
+	var p = &a
+	a += *p
+	//*p = *p + 10
+	fmt.Printf("p -->> %v", a)
+}

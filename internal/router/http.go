@@ -19,6 +19,33 @@ func RouteDemo(app *iris.Application) {
 		p.Get("/query", home.Query)
 	})
 
+	app.PartyFunc("/test", func(p router.Party) {
+		p.Get("/1", func(ctx iris.Context) {
+			handler.Re(ctx, handler.Success, nil)
+		})
+
+		p.Get("/2", func(ctx iris.Context) {
+			id := ctx.URLParam("id")
+			handler.UpdateParameter("test/2", id, nil)
+			handler.Re(ctx, handler.Success, nil)
+		})
+
+		p.Get("/3", func(ctx iris.Context) {
+			id := ctx.URLParam("name")
+			handler.UpdateParameter("test/3", id, nil)
+			handler.Re(ctx, handler.Success, nil)
+		})
+		p.Get("/4", func(ctx iris.Context) {
+			id := ctx.URLParam("id")
+			handler.SendOne(id)
+			handler.Re(ctx, handler.Success, nil)
+		})
+
+		p.Get("/5", func(ctx iris.Context) {
+			handler.SendAll()
+			handler.Re(ctx, handler.Success, nil)
+		})
+	})
 	app.Get("/test", func(ctx iris.Context) {
 		handler.Re(ctx, handler.Success, nil)
 	})

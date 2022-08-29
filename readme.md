@@ -60,6 +60,23 @@
    // 查询所有数据
     sql, _, err = G.From("user").Select().ToSQL()
 
+   //连表查询-- 并且返回求和参数
+   	sql, _, err := logic.G.From(`bet`).Select(
+		goqu.COUNT("bet.amount").As("total_amount"),
+		goqu.COUNT("tips.amount").As("total_tips_amount"),
+		goqu.COUNT("bet.win_amount").As("total_win_amount")).LeftJoin(
+		goqu.T("tips"),
+		goqu.On(goqu.Ex{
+			"bet.game_no": goqu.I("tips.game_no"),
+			"bet.desk_no": goqu.I("tips.desk_no"),
+		}),
+	).Where(goqu.Ex{
+		"bet.created_at": goqu.Op{
+			"gt": 10000,
+		},
+		"bet.better_id": []int64{20, 24, 26, 28, 30},
+		"trade_type_id": 0,
+	}).ToSQL()
    ```
 5. sqlx -- 待完善
 ```Go

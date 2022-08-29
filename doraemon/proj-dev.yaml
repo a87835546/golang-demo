@@ -1,6 +1,6 @@
 server:
   host: 127.0.0.1
-  port: 18081
+  port: 18082
 mysql:
   user: admin
   password: qwer1234
