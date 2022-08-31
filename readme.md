@@ -132,9 +132,12 @@
     }
 ```
 
-2. 接口 interface 的介绍
-3. map 的使用介绍
-4. slice 切片 --- base_test.go
+2. 接口 interface 的介绍 --- test/interface_test.go
+```go
+   // 
+```
+4. map 的使用介绍
+5. slice 切片 --- base_test.go
 ```go
    var arr = []int{0, 1}
    var arr1 = []int{10, 11}
