@@ -14,9 +14,10 @@ const (
 var Conf *Config
 
 type Config struct {
-	Server ServerConfig
-	MySQL  MysqlConfig
-	Redis  RedisConfig
+	Server     ServerConfig
+	MySQL      MysqlConfig
+	Redis      RedisConfig
+	Beanstalkd BeanstalkdConfig
 }
 
 type RedisConfig struct {
@@ -25,6 +26,11 @@ type RedisConfig struct {
 	Password string `yaml:"password"`
 }
 type ServerConfig struct {
+	Host string `yaml:"host"`
+	Port int64  `yaml:"port"`
+}
+
+type BeanstalkdConfig struct {
 	Host string `yaml:"host"`
 	Port int64  `yaml:"port"`
 }

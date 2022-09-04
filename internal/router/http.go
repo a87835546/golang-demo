@@ -5,6 +5,7 @@ import (
 	"github.com/kataras/iris/v12/core/router"
 	"github.com/kataras/iris/v12/websocket"
 	"golang-demo/internal/handler"
+	"golang-demo/internal/logic"
 	"golang-demo/internal/middleware"
 )
 
@@ -23,26 +24,22 @@ func RouteDemo(app *iris.Application) {
 		p.Get("/1", func(ctx iris.Context) {
 			handler.Re(ctx, handler.Success, nil)
 		})
-
 		p.Get("/2", func(ctx iris.Context) {
-			id := ctx.URLParam("id")
-			handler.UpdateParameter("test/2", id, nil)
 			handler.Re(ctx, handler.Success, nil)
 		})
 
 		p.Get("/3", func(ctx iris.Context) {
-			id := ctx.URLParam("name")
-			handler.UpdateParameter("test/3", id, nil)
 			handler.Re(ctx, handler.Success, nil)
 		})
 		p.Get("/4", func(ctx iris.Context) {
-			id := ctx.URLParam("id")
-			handler.SendOne(id)
 			handler.Re(ctx, handler.Success, nil)
 		})
 
 		p.Get("/5", func(ctx iris.Context) {
-			handler.SendAll()
+			handler.Re(ctx, handler.Success, nil)
+		})
+		p.Get("/6", func(ctx iris.Context) {
+			logic.Send("测试发生消息")
 			handler.Re(ctx, handler.Success, nil)
 		})
 	})
