@@ -47,6 +47,15 @@ func RouteDemo(app *iris.Application) {
 		handler.Re(ctx, handler.Success, nil)
 	})
 
+	app.PartyFunc("/dabluo", func(p router.Party) {
+		userCtl := new(handler.UserCtl)
+		p.Post("/query", userCtl.QueryUsers)
+		p.Post("/queryOne", userCtl.QueryOneUsers)
+		p.Post("/addMember", userCtl.AddMember)
+		p.Post("/modifyMember", userCtl.ModifyMember)
+		p.Post("/deleteMember", userCtl.DeleteMember)
+	})
+
 	// websoket 使用
 	app.Get("/msg", websocket.Handler(handler.InitWebsocket()))
 

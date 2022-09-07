@@ -8,6 +8,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"golang-demo/internal/consts"
+	"golang-demo/internal/repository"
 	"golang.org/x/crypto/ssh"
 	"net"
 	"time"
@@ -38,6 +39,7 @@ func init() {
 	fmt.Println("db", Db)
 	Db.SetMaxOpenConns(20)
 	Db.SetMaxIdleConns(10)
+	repository.SqlxDB = Db
 }
 
 func InitBeanstalkd() {
