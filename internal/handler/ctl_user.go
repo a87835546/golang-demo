@@ -7,13 +7,30 @@ import (
 	"golang-demo/internal/models"
 )
 
+// UserCtl /**
+/**
+ * @author 大菠萝
+ * @description //TODO 控制层结构体 类似于 java中的control
+ * @date 4:14 pm 9/7/22
+ * @param
+ * @return
+ **/
 type UserCtl struct {
 	Service logic.MemberServiceImpl
 }
 
+// QueryUsers /**
+/**
+ * @author 大菠萝
+ * @description //TODO 控制层中查询用户列表的接口
+ * @date 4:15 pm 9/7/22
+ * @param //TODO iris的上下文对象，可以通过该上下文对象获取前端的传过来的相关参数及请求头信息
+ * @return
+ **/
 func (c *UserCtl) QueryUsers(ctx iris.Context) {
 	fmt.Println("我是大菠萝")
 	user := models.UserModel{}
+	//TODO 从上下文对象中获取json参数并组装到对应的user结构体数据中
 	ctx.ReadJSON(&user)
 	fmt.Printf("查询列表参数%+v", user)
 	fmt.Println("用户名称" + user.Username)

@@ -2,6 +2,14 @@ package middleware
 
 import "github.com/kataras/iris/v12"
 
+// CROS /**
+/**
+ * @author 大菠萝
+ * @description //TODO iris跨越的处理
+ * @date 3:41 pm 9/7/22
+ * @param iris上下文环境对象
+ * @return
+ **/
 func CROS(ctx iris.Context) {
 
 	ctx.Header("Access-Control-Allow-Origin", "*")

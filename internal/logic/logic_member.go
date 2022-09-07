@@ -6,6 +6,14 @@ import (
 	"golang-demo/internal/repository"
 )
 
+// MemberService /**
+/**
+ * @author 大菠萝
+ * @description //TODO 业务逻辑层接口 类似于java的 service的
+ * @date 4:13 pm 9/7/22
+ * @param
+ * @return
+ **/
 type MemberService interface {
 	AddMember(user models.UserModel) error
 
@@ -14,6 +22,14 @@ type MemberService interface {
 	QueryOneMember(user models.UserModel) (models.UserModel, error)
 }
 
+// MemberServiceImpl /**
+/**
+ * @author 大菠萝
+ * @description //TODO MemberService接口的实现结构体
+ * @date 4:54 pm 9/7/22
+ * @param
+ * @return
+ **/
 type MemberServiceImpl struct {
 	repo *repository.UserRepositoryImpl
 }

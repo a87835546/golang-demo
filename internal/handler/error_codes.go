@@ -1,5 +1,12 @@
 package handler
 
+/**
+ * @author 大菠萝
+ * @description //TODO go中的常量定义方式，通过构建两组常量达到key/value键值对的效果 达到java中枚举的效果
+ * @date 4:25 pm 9/7/22
+ * @param
+ * @return
+ **/
 const (
 	Success         = int32(10000)
 	SystemErr       = int32(10001)

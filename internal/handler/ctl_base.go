@@ -60,6 +60,7 @@ func Re(ctx iris.Context, errCode int32, data interface{}) {
 		Message: MessageMap[errCode],
 		Data:    data,
 	}
+	//TODO 通过上下文对象把查询到的返回值按统一的数据格式返回给前端
 	_, _ = ctx.JSON(rzt)
 
 	ctx.Values().Set("data", jsonSerialize(rzt))

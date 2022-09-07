@@ -47,6 +47,7 @@ func RouteDemo(app *iris.Application) {
 		handler.Re(ctx, handler.Success, nil)
 	})
 
+	//dabluo路径作为一个请求组，UserCtl是该请求组控制层结构体，包含增删改查五个方法
 	app.PartyFunc("/dabluo", func(p router.Party) {
 		userCtl := new(handler.UserCtl)
 		p.Post("/query", userCtl.QueryUsers)
@@ -56,7 +57,7 @@ func RouteDemo(app *iris.Application) {
 		p.Post("/deleteMember", userCtl.DeleteMember)
 	})
 
-	// websoket 使用
+	// 任何以/msg为前缀的路径，一律交给websoket处理。
 	app.Get("/msg", websocket.Handler(handler.InitWebsocket()))
 
 }
