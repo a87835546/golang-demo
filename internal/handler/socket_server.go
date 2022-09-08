@@ -16,6 +16,14 @@ import (
 	"time"
 )
 
+// SocketServer /**
+/**
+ * @author 大菠萝
+ * @description //TODO socket的配置连接
+ * @date 10:35 am 9/8/22
+ * @param
+ * @return
+ **/
 type SocketServer struct {
 }
 
