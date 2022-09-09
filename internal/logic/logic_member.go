@@ -2,8 +2,10 @@ package logic
 
 import (
 	"fmt"
+	"golang-demo/internal/consts"
 	"golang-demo/internal/models"
 	"golang-demo/internal/repository"
+	error_utils "golang-demo/internal/utils/error"
 )
 
 // MemberService /**
@@ -62,6 +64,9 @@ func (memberService *MemberServiceImpl) QueryMembers(user models.UserModel) ([]m
 	//userSlices := make([]models.UserModel, 0)
 	fmt.Printf("进入到业务层查询的user:%v\n", user)
 	userSlices, err := memberService.repo.SelectMembers(user)
+	if true {
+		panic(error_utils.ServiceErrorModel{Code: consts.TokenErr})
+	}
 	return userSlices, err
 }
 

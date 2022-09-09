@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"github.com/kataras/iris/v12"
+	"golang-demo/internal/consts"
 	"golang-demo/internal/logic"
 	"golang-demo/internal/models"
 )
@@ -29,6 +30,7 @@ type UserCtl struct {
  **/
 func (c *UserCtl) QueryUsers(ctx iris.Context) {
 	fmt.Println("我是大菠萝")
+	defer HandleErr(ctx, nil)
 	user := models.UserModel{}
 	//TODO 从上下文对象中获取json参数并组装到对应的user结构体数据中
 	ctx.ReadJSON(&user)
@@ -36,7 +38,7 @@ func (c *UserCtl) QueryUsers(ctx iris.Context) {
 	fmt.Println("用户名称" + user.Username)
 	userSlices, _ := (&c.Service).QueryMembers(user)
 	fmt.Printf("获取到的切片数据:%v\n", userSlices)
-	Re(ctx, Success, userSlices)
+	Re(ctx, consts.Success, userSlices)
 }
 
 func (c *UserCtl) QueryOneUsers(ctx iris.Context) {
@@ -46,7 +48,7 @@ func (c *UserCtl) QueryOneUsers(ctx iris.Context) {
 	fmt.Println("用户名称" + user.Username)
 	userOne, _ := (&c.Service).QueryOneMember(user)
 	fmt.Printf("获取到单条数据:%v\n", userOne)
-	Re(ctx, Success, userOne)
+	Re(ctx, consts.Success, userOne)
 }
 
 func (c *UserCtl) AddMember(ctx iris.Context) {
@@ -56,7 +58,7 @@ func (c *UserCtl) AddMember(ctx iris.Context) {
 	fmt.Println("用户名称" + user.Username)
 	err := (&c.Service).AddMember(user)
 	fmt.Printf("添加结束后的数据:%v\n", err)
-	Re(ctx, Success, nil)
+	Re(ctx, consts.Success, nil)
 }
 
 func (c *UserCtl) ModifyMember(ctx iris.Context) {
@@ -66,7 +68,7 @@ func (c *UserCtl) ModifyMember(ctx iris.Context) {
 	fmt.Println("用户名称" + user.Username)
 	err := (&c.Service).UpdateMember(user)
 	fmt.Printf("修改结束后的数据:%v\n", err)
-	Re(ctx, Success, nil)
+	Re(ctx, consts.Success, nil)
 }
 
 func (c *UserCtl) DeleteMember(ctx iris.Context) {
@@ -76,5 +78,5 @@ func (c *UserCtl) DeleteMember(ctx iris.Context) {
 	fmt.Println("用户名称" + user.Username)
 	err := (&c.Service).DeleteMember(user)
 	fmt.Printf("删除结束后的数据:%v\n", err)
-	Re(ctx, Success, nil)
+	Re(ctx, consts.Success, nil)
 }

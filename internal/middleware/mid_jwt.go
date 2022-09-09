@@ -20,7 +20,7 @@ func CheckJWT(ctx iris.Context) {
 	if tokenString == "" {
 		ctx.StopExecution()
 		ctx.StatusCode(iris.StatusUnauthorized)
-		handler.Re(ctx, handler.TokenErr, "")
+		handler.Re(ctx, consts.TokenErr, "")
 		return
 	}
 	//fmt.Printf("token ---->>> %s \nmember id --->>> %d \v", tokenString, memberID)
@@ -37,7 +37,7 @@ func CheckJWT(ctx iris.Context) {
 	if err != nil {
 		ctx.StopExecution()
 		ctx.StatusCode(iris.StatusUnauthorized)
-		handler.Re(ctx, handler.TokenErr, "")
+		handler.Re(ctx, consts.TokenErr, "")
 		return
 	}
 
@@ -51,13 +51,13 @@ func CheckJWT(ctx iris.Context) {
 
 	_, ok = ctx.Values().Set("token", tokenString)
 	if !ok {
-		handler.Re(ctx, handler.SystemErr, "")
+		handler.Re(ctx, consts.SystemErr, "")
 		return
 	}
 
 	_, ok = ctx.Values().Set("token_ts", time.Now().Unix())
 	if !ok {
-		handler.Re(ctx, handler.SystemErr, "")
+		handler.Re(ctx, consts.SystemErr, "")
 		return
 	}
 
