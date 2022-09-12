@@ -70,7 +70,7 @@ func Re(ctx iris.Context, errCode int32, data interface{}) {
 	ctx.Next()
 }
 
-func HandleErr(ctx iris.Context, data interface{}) {
+func HandlePanic(ctx iris.Context, data interface{}) {
 
 	if err := recover(); err != nil {
 
@@ -89,4 +89,14 @@ func HandleErr(ctx iris.Context, data interface{}) {
 		}
 		Re(ctx, code, data)
 	}
+}
+
+func HandleErr(ctx iris.Context, data interface{}, err error) {
+
+	code := consts.SystemErr
+
+	fmt.Printf("err有错,抛出异常:%+v\n", err)
+
+	Re(ctx, code, data)
+
 }

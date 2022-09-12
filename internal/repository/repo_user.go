@@ -79,7 +79,15 @@ func (userRepositoryImpl *UserRepositoryImpl) SelectOneMember(user models.UserMo
  **/
 func (userRepositoryImpl *UserRepositoryImpl) Insert(user models.UserModel) (int64, error) {
 	sql := "INSERT INTO user (username,`password`,age,sex) VALUES (?, ?, ?,?)"
-	result, err := SqlxDB.Exec(sql, user.Username, user.Password, user.Age, user.Sex)
+	tx, err := SqlxDB.Beginx()
+	result, err := tx.Exec(sql, user.Username, user.Password, user.Age, user.Sex)
+	if err == nil {
+		//panic("数据库添加失败")
+		fmt.Println("数据插入失败,事物回滚")
+		tx.Rollback()
+		return 0, err
+	}
+	tx.Commit()
 	fmt.Printf("查询数据库单条入参:%v,返回的数值:%v,%v", user, result, err)
 	id, err2 := result.LastInsertId()
 	return id, err2

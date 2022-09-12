@@ -30,14 +30,18 @@ type UserCtl struct {
  **/
 func (c *UserCtl) QueryUsers(ctx iris.Context) {
 	fmt.Println("我是大菠萝")
-	defer HandleErr(ctx, nil)
+	defer HandlePanic(ctx, nil)
 	user := models.UserModel{}
 	//TODO 从上下文对象中获取json参数并组装到对应的user结构体数据中
 	ctx.ReadJSON(&user)
 	fmt.Printf("查询列表参数%+v", user)
 	fmt.Println("用户名称" + user.Username)
-	userSlices, _ := (&c.Service).QueryMembers(user)
+	userSlices, err := (&c.Service).QueryMembers(user)
 	fmt.Printf("获取到的切片数据:%v\n", userSlices)
+	if err != nil {
+		HandleErr(ctx, nil, err)
+		return
+	}
 	Re(ctx, consts.Success, userSlices)
 }
 

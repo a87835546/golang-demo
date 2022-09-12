@@ -64,7 +64,7 @@ func (memberService *MemberServiceImpl) QueryMembers(user models.UserModel) ([]m
 	//userSlices := make([]models.UserModel, 0)
 	fmt.Printf("进入到业务层查询的user:%v\n", user)
 	userSlices, err := memberService.repo.SelectMembers(user)
-	if true {
+	if err != nil {
 		panic(error_utils.ServiceErrorModel{Code: consts.TokenErr})
 	}
 	return userSlices, err
