@@ -8,7 +8,7 @@ import (
 	"golang-demo/internal/models"
 )
 
-// UserCtl /**
+// UserCtl /** fat分支修改
 /**
  * @author 大菠萝
  * @description //TODO 控制层结构体 类似于 java中的control
