@@ -57,6 +57,7 @@ func RouteDemo(app *iris.Application) {
 		p.Post("/modifyMember", userCtl.ModifyMember)
 		p.Post("/deleteMember", userCtl.DeleteMember)
 		p.Post("/queryList", userCtl.QueryUsersByPages)
+		p.Post("/addMemberByGoqu", userCtl.AddMemberByGoqu)
 	})
 
 	// 任何以/msg为前缀的路径，一律交给websoket处理。

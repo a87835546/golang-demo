@@ -2,11 +2,14 @@ package repository
 
 import (
 	"fmt"
+	"github.com/doug-martin/goqu/v9"
 	"github.com/jmoiron/sqlx"
 	"golang-demo/internal/models"
 )
 
 var SqlxDB *sqlx.DB
+
+var G = goqu.Dialect("mysql")
 
 // UserRepository /**
 /**
@@ -103,8 +106,16 @@ func (userRepositoryImpl *UserRepositoryImpl) Insert(user models.UserModel) (int
  **/
 func (userRepositoryImpl *UserRepositoryImpl) Update(user models.UserModel) (int64, error) {
 	sql := "update user set age = ? where id = ?"
-	result, err := SqlxDB.Exec(sql, user.Age, user.Id)
-	fmt.Printf("修改数据库单条入参:%v,返回的数值:%v,%v", user, result, err)
+	tx, err := SqlxDB.Beginx()
+	result, err := tx.Exec(sql, user.Age, user.Id)
+	fmt.Printf("修改数据库单条入参:%v,返回的数值:%v,%v\n", user, result, err)
+	if err != nil {
+		fmt.Println("修改报错,修改事物回滚")
+		tx.Rollback()
+		return 0, err
+	}
+	tx.Commit()
+	fmt.Println("修改成功")
 	affectNum, err2 := result.RowsAffected()
 	return affectNum, err2
 }
@@ -125,6 +136,14 @@ func (userRepositoryImpl *UserRepositoryImpl) Delete(user models.UserModel) (int
 	return affectNum, err2
 }
 
+// SelectMembersByPage /**
+/**
+ * @author 大菠萝
+ * @description //TODO 分页查询会员数据
+ * @date 9:41 am 9/13/22
+ * @param
+ * @return
+ **/
 func (userRepositoryImpl *UserRepositoryImpl) SelectMembersByPage(user models.UserModel) (*[]models.UserModel, int, error) {
 	sql := "select id,username,`password`,age,sex from user where username = ? limit 3 OFFSET 0 "
 	//	slicesUser := make([]models.UserModel, 0)
@@ -133,4 +152,30 @@ func (userRepositoryImpl *UserRepositoryImpl) SelectMembersByPage(user models.Us
 	err := SqlxDB.Select(&slicesUser, sql, user.Username)
 	fmt.Printf("查询数据库入参:%s,返回的数值:%v,%v", user.Username, slicesUser, err)
 	return &slicesUser, total, err
+}
+
+// InsertByGo /**
+/**
+ * @author 大菠萝
+ * @description //TODO 通过goqu生成sql,进行添加
+ * @date 9:51 am 9/13/22
+ * @param
+ * @return
+ **/
+func (userRepositoryImpl *UserRepositoryImpl) InsertByGo(user models.UserModel) (int64, error) {
+	//sql := "INSERT INTO user (username,`password`,age,sex) VALUES (?, ?, ?,?)"
+	fmt.Println("进行goqu添加方法")
+	sql, _, err := G.From("user").Insert().Rows(user).ToSQL()
+	tx, err := SqlxDB.Beginx()
+	result, err := tx.Exec(sql)
+	if err != nil {
+		//panic("数据库添加失败")
+		fmt.Println("数据插入失败,事物回滚")
+		tx.Rollback()
+		return 0, err
+	}
+	tx.Commit()
+	fmt.Printf("goqu添加入参:%v,返回的数值:%v,%v", user, result, err)
+	id, err2 := result.LastInsertId()
+	return id, err2
 }

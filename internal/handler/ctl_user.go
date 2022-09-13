@@ -101,3 +101,14 @@ func (c *UserCtl) QueryUsersByPages(ctx iris.Context) {
 	}
 	Re(ctx, consts.Success, vo)
 }
+
+func (c *UserCtl) AddMemberByGoqu(ctx iris.Context) {
+	fmt.Println("进入goqu添加控制层")
+	defer HandlePanic(ctx, nil)
+	user := models.UserModel{}
+	ctx.ReadJSON(&user)
+	fmt.Printf("入参数%+v\n", user)
+	err := (&c.Service).AddMemberByGoqu(user)
+	fmt.Printf("添加结束后的数据:%v\n", err)
+	Re(ctx, consts.Success, nil)
+}

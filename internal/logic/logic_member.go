@@ -92,3 +92,11 @@ func (memberService *MemberServiceImpl) QueryMembersByPage(user models.UserModel
 
 	return result, err
 }
+
+func (memberService *MemberServiceImpl) AddMemberByGoqu(user models.UserModel) error {
+	fmt.Printf("进入到业务层查询的user:%+v\n", user)
+	//fmt.Printf("用户名:%s,密码:%s,年龄:%d,性别:%s", user.Username, user.Password, user.Age, user.Sex)
+	id, err := memberService.repo.InsertByGo(user)
+	fmt.Printf("添加的insert的id:%d", id)
+	return err
+}
