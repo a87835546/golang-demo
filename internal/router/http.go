@@ -43,6 +43,10 @@ func RouteDemo(app *iris.Application) {
 			logic.Send("测试发生消息")
 			handler.Re(ctx, consts.Success, nil)
 		})
+		p.Get("/7", func(ctx iris.Context) {
+			handler.ReadingMsg()
+			handler.Re(ctx, handler.Success, nil)
+		})
 	})
 	app.Get("/test", func(ctx iris.Context) {
 		handler.Re(ctx, consts.Success, nil)

@@ -2,7 +2,6 @@ package consts
 
 import (
 	"github.com/spf13/viper"
-	"log"
 )
 
 const (
@@ -54,8 +53,8 @@ func InitYaml() {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		log.Println("Config file not found: ", err)
-		//panic("Failed to open config file")
+		//log.Println("Config file not found: ", err)
+		panic("Failed to open config file")
 	}
 
 	viper.Unmarshal(&Conf)

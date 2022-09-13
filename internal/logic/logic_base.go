@@ -70,10 +70,13 @@ func init() {
 func InitBeanstalkd() {
 	addr := fmt.Sprintf("%s:%d", consts.Conf.Beanstalkd.Host, consts.Conf.Beanstalkd.Port)
 	fmt.Printf("add -->> %s", addr)
+	//t := beanstalk.Tube{}
 	c, err := beanstalk.Dial("tcp", addr)
 	BeanstalkdConn = c
+
 	if err != nil {
-		fmt.Printf("coconnect beanstalkd err -->>> %s", err.Error())
+		fmt.Printf("coconnect beanstalkd err -->>> %s \n", err.Error())
+		fmt.Printf("coconnect beanstalkd err -->>> %v \n", c)
 	}
 }
 
