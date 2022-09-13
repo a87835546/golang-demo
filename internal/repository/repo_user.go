@@ -124,3 +124,13 @@ func (userRepositoryImpl *UserRepositoryImpl) Delete(user models.UserModel) (int
 	affectNum, err2 := result.RowsAffected()
 	return affectNum, err2
 }
+
+func (userRepositoryImpl *UserRepositoryImpl) SelectMembersByPage(user models.UserModel) (*[]models.UserModel, int, error) {
+	sql := "select id,username,`password`,age,sex from user where username = ? limit 3 OFFSET 0 "
+	//	slicesUser := make([]models.UserModel, 0)
+	var slicesUser []models.UserModel
+	var total int = 6
+	err := SqlxDB.Select(&slicesUser, sql, user.Username)
+	fmt.Printf("查询数据库入参:%s,返回的数值:%v,%v", user.Username, slicesUser, err)
+	return &slicesUser, total, err
+}
