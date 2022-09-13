@@ -84,3 +84,31 @@ func (c *UserCtl) DeleteMember(ctx iris.Context) {
 	fmt.Printf("删除结束后的数据:%v\n", err)
 	Re(ctx, consts.Success, nil)
 }
+
+func (c *UserCtl) QueryUsersByPages(ctx iris.Context) {
+	fmt.Println("我是大菠萝")
+	defer HandlePanic(ctx, nil)
+	user := models.UserModel{}
+	//TODO 从上下文对象中获取json参数并组装到对应的user结构体数据中
+	ctx.ReadJSON(&user)
+	fmt.Printf("查询列表参数%+v", user)
+	fmt.Println("用户名称" + user.Username)
+	vo, err := (&c.Service).QueryMembersByPage(user)
+	fmt.Printf("获取到的切片数据:%v\n", vo)
+	if err != nil {
+		HandleErr(ctx, nil, err)
+		return
+	}
+	Re(ctx, consts.Success, vo)
+}
+
+func (c *UserCtl) AddMemberByGoqu(ctx iris.Context) {
+	fmt.Println("进入goqu添加控制层")
+	defer HandlePanic(ctx, nil)
+	user := models.UserModel{}
+	ctx.ReadJSON(&user)
+	fmt.Printf("入参数%+v\n", user)
+	err := (&c.Service).AddMemberByGoqu(user)
+	fmt.Printf("添加结束后的数据:%v\n", err)
+	Re(ctx, consts.Success, nil)
+}

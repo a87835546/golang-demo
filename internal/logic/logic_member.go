@@ -6,6 +6,7 @@ import (
 	"golang-demo/internal/models"
 	"golang-demo/internal/repository"
 	error_utils "golang-demo/internal/utils/error"
+	"golang-demo/internal/vo"
 )
 
 // MemberService /**
@@ -75,4 +76,27 @@ func (memberService *MemberServiceImpl) QueryOneMember(user models.UserModel) (m
 	fmt.Printf("进入到业务层查询的user:%v\n", user)
 	userModel, err := memberService.repo.SelectOneMember(user)
 	return userModel, err
+}
+
+func (memberService *MemberServiceImpl) QueryMembersByPage(user models.UserModel) (vo.UserPageVo, error) {
+	//userSlices := make([]models.UserModel, 0)
+	fmt.Printf("进入到业务层查询的user:%v\n", user)
+	userSlices, total, err := memberService.repo.SelectMembersByPage(user)
+	if err != nil {
+		panic(error_utils.ServiceErrorModel{Code: consts.TokenErr})
+	}
+	result := vo.UserPageVo{
+		List: *userSlices,
+	}
+	result.Total = total
+
+	return result, err
+}
+
+func (memberService *MemberServiceImpl) AddMemberByGoqu(user models.UserModel) error {
+	fmt.Printf("进入到业务层查询的user:%+v\n", user)
+	//fmt.Printf("用户名:%s,密码:%s,年龄:%d,性别:%s", user.Username, user.Password, user.Age, user.Sex)
+	id, err := memberService.repo.InsertByGo(user)
+	fmt.Printf("添加的insert的id:%d", id)
+	return err
 }
