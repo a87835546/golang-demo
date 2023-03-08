@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/core/router"
 	"github.com/kataras/iris/v12/websocket"
@@ -45,7 +46,7 @@ func RouteDemo(app *iris.Application) {
 		})
 		p.Get("/7", func(ctx iris.Context) {
 			handler.ReadingMsg()
-			handler.Re(ctx, handler.Success, nil)
+			handler.Re(ctx, consts.Success, nil)
 		})
 	})
 	app.Get("/test", func(ctx iris.Context) {
@@ -66,5 +67,22 @@ func RouteDemo(app *iris.Application) {
 
 	// 任何以/msg为前缀的路径，一律交给websoket处理。
 	app.Get("/msg", websocket.Handler(handler.InitWebsocket()))
+
+}
+func RouteDemoUsingGin(app *gin.Engine) {
+
+	test := app.Group("/test")
+	{
+		test.GET("1", func(c *gin.Context) {
+			c.JSON(200, "test 1")
+		})
+		test.GET("2", func(c *gin.Context) {
+			a := 1
+			b := 0
+			d := a / b
+			c.JSON(200, d)
+		})
+	}
+	app.Run(":8080")
 
 }

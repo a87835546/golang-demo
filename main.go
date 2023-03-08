@@ -3,16 +3,22 @@ package main
 import (
 	"errors"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"github.com/iris-contrib/swagger/v12"
 	"github.com/iris-contrib/swagger/v12/swaggerFiles"
 	"github.com/kataras/iris/v12"
 	"golang-demo/internal/consts"
+	"golang-demo/internal/middleware"
 	"golang-demo/internal/router"
 	"log"
 )
 
 func main() {
 	fmt.Println("Hello, World!")
+
+	g := gin.Default()
+	g.Use(middleware.LogInfoBefore1(), gin.Logger(), gin.Recovery())
+	router.RouteDemoUsingGin(g)
 
 	//TODO 初始化配置常量信息到内存对象中
 	consts.InitYaml()
