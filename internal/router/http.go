@@ -47,6 +47,7 @@ func RouteDemo(app *iris.Application) {
 			handler.ReadingMsg()
 			handler.Re(ctx, consts.Success, nil)
 		})
+		p.Get("/8", handler.Test8)
 	})
 	app.Get("/test", func(ctx iris.Context) {
 		handler.Re(ctx, consts.Success, nil)
