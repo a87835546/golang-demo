@@ -5,8 +5,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	mapset "github.com/deckarep/golang-set"
 	"github.com/nats-io/nats.go"
 	"go.uber.org/zap"
+	"golang-demo/internal/consts"
+	"golang-demo/internal/logic"
+	"golang-demo/internal/models"
 	"strings"
 	"sync"
 )
@@ -26,7 +30,7 @@ type SettlePeriod struct {
 	CardI2Lottery map[string]RewardPoints // 卡片对应的开奖结果 key:卡片id  value:卡片中奖结构
 }
 
-func (s *SettleService) NatsSettle(m *model.NatsSettle) error {
+func (s *SettleService) NatsSettle(m *models.NatsSettle) error {
 
 	key, err := m.GetKey()
 	if err != nil {
@@ -65,7 +69,7 @@ func (s *SettleService) NatsSettle(m *model.NatsSettle) error {
 	source["B"] = consts.B
 	source["C"] = consts.C
 
-	period.Contain(source, model.Ball{Number: 10, Index: 1})
+	period.Contain(source, models.Ball{Number: 10, Index: 1})
 	// 判断是否完成
 	if len(period.CardsRank) == period.Count && len(period.Index) == period.Count {
 		period.Clean()
