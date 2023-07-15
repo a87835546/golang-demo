@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	utils "github.com/a87835546/go-utils"
 	"github.com/iris-contrib/swagger/v12"
 	"github.com/iris-contrib/swagger/v12/swaggerFiles"
 	"github.com/kataras/iris/v12"
@@ -12,7 +13,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello, World!")
+	fmt.Println("Hello, World! " + utils.GetEnv("HOME"))
 
 	//TODO 初始化配置常量信息到内存对象中
 	consts.InitYaml()

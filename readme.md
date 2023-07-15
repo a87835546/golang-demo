@@ -194,7 +194,22 @@
    } 
 ```
 
+## 6.golang 私库的使用
+1. github 上的私库使用
+```go
+    1.修改go mod中的module 和你的仓库地址一直 github.com/a87835546/go-utils
+    2.添加tag, git tag -a v0.0.1 -m "这个tag的作用"
+    3.推送tag, git push origin v0.0.1
+    4.在自己的项目中使用,`go mod get github.com/a87835546/go-utils` 或者直接在go.mod 文件中添加 并指定相对应的tag
+    
+```
+2. 私有仓库的使用，例如gitlab
+```go
+    1.修改go的环境,`go env -w GOPRIVATE=gitlab.com/common`
+    2.配置好队友的gitlab的权限.(如果权限不对会报128的错误)
+    3.添加tag并推送
+    4.在项目中使用
 
-
+```
 
 ------
