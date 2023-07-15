@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"github.com/kataras/iris/v12"
 	"golang-demo/internal/consts"
-	"golang-demo/internal/utils/error"
-	"runtime/debug"
 )
 
 // Result 返回数据结构/
@@ -68,27 +66,6 @@ func Re(ctx iris.Context, errCode int32, data interface{}) {
 
 	ctx.Values().Set("data", jsonSerialize(rzt))
 	ctx.Next()
-}
-
-func HandlePanic(ctx iris.Context, data interface{}) {
-
-	if err := recover(); err != nil {
-
-		code := consts.SystemErr
-
-		if serviceError, ok := err.(error_utils.ServiceErrorModel); ok {
-
-			fmt.Printf("手动抛出异常:%+v\n", err)
-
-			code = serviceError.Code
-
-		} else {
-
-			fmt.Printf("代码出现异常,异常信息:%s\n", debug.Stack())
-
-		}
-		Re(ctx, code, data)
-	}
 }
 
 func HandleErr(ctx iris.Context, data interface{}, err error) {
